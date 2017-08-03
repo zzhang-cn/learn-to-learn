@@ -3,3 +3,4 @@
 *.pyc
 *.data
 parameters/
+*/mnist.pkl.gz

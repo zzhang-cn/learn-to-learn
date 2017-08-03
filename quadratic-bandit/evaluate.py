@@ -7,7 +7,7 @@ from torch.autograd import Variable
 import visdom
 from framework import Agent, Environ
 from utilities import Mean
-from visualizer import Visualizer
+from visualizer import VisdomVisualizer
 
 parser = ArgumentParser()
 parser.add_argument('--actor-lr', type=float, default=1e-3)
@@ -33,11 +33,11 @@ environ = Environ(args)
 metric = Mean()
 vis = visdom.Visdom()
 penalty_list = []
-penalty_vis = Visualizer(vis, {'title': 'penalty'})
+penalty_vis = VisdomVisualizer(vis, {'title': 'penalty'})
 actor_llist = []
-actor_lvis = Visualizer(vis, {'title': 'actor loss'})
+actor_lvis = VisdomVisualizer(vis, {'title': 'actor loss'})
 critic_llist = []
-critic_lvis = Visualizer(vis, {'title': 'critic loss'})
+critic_lvis = VisdomVisualizer(vis, {'title': 'critic loss'})
 
 for i in range(args.n_iterations):
   action, cache = agent.forward()
