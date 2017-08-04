@@ -25,7 +25,7 @@ class DNIModule(nn.Module):
     in_variable, out_variable = cache
     out_variable.backward(gradient)
     # compute gradient w.r.t. parameters and input data
-    authentic_gradient = in_variable.grad
+    authentic_gradient = Variable(in_variable.grad.data)
     data = Variable(in_variable.data)
     synthetic_gradient = self._backward(data)
     if random.random() < self._p_update:
@@ -47,17 +47,6 @@ class DNIModule(nn.Module):
     criterion = nn.MSELoss()
     loss = criterion(synthetic_gradient, authentic_gradient)
     return loss
-
-class DNILinear(DNIModule):
-  def __init__(self, p_update, nonlinear, in_features, out_features):
-    super(DNILinear, self).__init__(p_update)
-    self._linear = nn.Linear(in_features, out_features)
-    self._nonlinear = nonlinear
-
-  def _forward(self, data):
-    data = self._linear(data)
-    data = self._nonlinear(data)
-    return data
 
 class DNICriterion(object):
   def __init__(self, criterion):
